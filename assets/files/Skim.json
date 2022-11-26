@@ -1,0 +1,44 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "3D objects",
+            "desc":"3D objects of all subjects and vast category of concepts",
+            "price": 30,
+            "color": "#33505a",
+            "image": "assets/images/3D_image.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Experiments",
+            "desc":"Experiments(especially designed ) from basic to advanced   level.",
+            "price": 20,
+            "color": "#00ac51",
+            "image": "assets/images/experiment_image.jpeg"
+        },
+        {
+            "id": 3,
+            "name": "Clubs",
+            "desc":"Info of Active clubs in the school and their status",
+            "price": 10,
+            "color": "#33505a",
+            "image": "assets/images/club_image.jpg"
+        },
+        {
+            "id": 4,
+            "name": "Courses",
+            "desc":"Different online courses related to tech and other fields",
+            "price": 20,
+            "color": "#33505a",
+            "image": "assets/images/Courses_image.png"
+        },
+        {
+            "id": 5,
+            "name": "Simulation",
+            "desc":"Online Simulators to perfom most difficult expeiments at your easliy",
+            "price": 10,
+            "color": "#33505a",
+            "image": "assets/images/simulation_image.png"
+        }
+    ]
+}
