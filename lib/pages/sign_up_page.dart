@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:skiome/pages/Home_page.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+// ignore_for_file: prefer_const_constructors
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -14,8 +15,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   String value = "";
   final _auth = FirebaseAuth.instance;
+  TextEditingController name = TextEditingController();
   late String email;
   late String password;
   final _formKey = GlobalKey<FormState>();
@@ -56,6 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.account_circle_outlined),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -70,9 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       }
                       return null;
                     },
-                    // onChanged:(value) {
-                    //   FirebaseFirestore.instance.collection('UserData').doc(value.user.uid)
-                    // },
+                    onChanged: (value) {},
                   ),
                   SizedBox(
                     height: 15,
@@ -112,58 +114,58 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     },
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      DropdownButton<String>(
-                        // Step 3.
-                        value: null,
-                        hint: Text("Board"),
-                        // Step 4.
-                        items: <String>['C.B.S.E.', 'I.C.S.E.', 'U.P.']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: dropdownValue,
-                            child: Text(
-                              value,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          );
-                        }).toList(),
-                        // Step 5.
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                      ),
-                      DropdownButton<String>(
-                        // Step 3.
-                        value: null,
-                        hint: Text("Medium"),
-                        // Step 4.
-                        items: <String>['Hindi', 'English']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          );
-                        }).toList(),
-                        // Step 5.
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: 15,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   children: [
+                  //     DropdownButton<String>(
+                  //       // Step 3.
+                  //       value: null,
+                  //       hint: Text("Board"),
+                  //       // Step 4.
+                  //       items: <String>['C.B.S.E.', 'I.C.S.E.', 'U.P.']
+                  //           .map<DropdownMenuItem<String>>((String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: dropdownValue,
+                  //           child: Text(
+                  //             value,
+                  //             style: TextStyle(fontSize: 20),
+                  //           ),
+                  //         );
+                  //       }).toList(),
+                  //       // Step 5.
+                  //       onChanged: (String? newValue) {
+                  //         setState(() {
+                  //       dropdownValue = newValue!;
+                  //     });
+                  //   },
+                  // ),
+                  //     DropdownButton<String>(
+                  //       // Step 3.
+                  //       value: null,
+                  //       hint: Text("Medium"),
+                  //       // Step 4.
+                  //       items: <String>['Hindi', 'English']
+                  //           .map<DropdownMenuItem<String>>((String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: value,
+                  //           child: Text(
+                  //             value,
+                  //             style: TextStyle(fontSize: 20),
+                  //           ),
+                  //         );
+                  //       }).toList(),
+                  //       // Step 5.
+                  //       onChanged: (String? newValue) {
+                  //         setState(() {
+                  //           dropdownValue = newValue!;
+                  //         });
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 15,
                   ),
@@ -454,12 +456,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () async {
+                        // CollectionReference users =
+                        //     firestore.collection('Schools');
+                        // await users.doc("pp").set({'name': "google"});
                         if (_formKey.currentState!.validate()) {
                           setState(() {});
                           try {
-                            final newUser =
-                                await _auth.createUserWithEmailAndPassword(
-                                    email: email, password: password);
+                            User? newUser =
+                                (await _auth.createUserWithEmailAndPassword(
+                                        email: email, password: password))
+                                    .user;
 
                             if (newUser != null) {
                               Navigator.pushReplacement(
@@ -467,6 +473,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                   MaterialPageRoute(
                                       builder: (context) => HomePage()));
                             }
+                            await firestore
+                                .collection("Schools")
+                                .doc(_auth.currentUser!.uid)
+                                .set({'email': email, 'name': name.text});
                           } catch (e) {
                             print(e);
                           }

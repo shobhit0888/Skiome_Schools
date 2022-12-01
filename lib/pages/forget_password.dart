@@ -87,7 +87,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         onTap: () async {
                           setState(() {});
                           // try {
-                          User? user = FirebaseAuth.instance
+                          User? user = await FirebaseAuth.instance
                                   .sendPasswordResetEmail(email: _email)
                                   .then((value) => Navigator.of(context).pop())
                               as User?;
