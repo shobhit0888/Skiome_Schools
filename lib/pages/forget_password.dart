@@ -43,13 +43,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "an email has been sent" + " to your email id",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              "Enter your registered email to reset your password"
+                  .text
+                  .center
+                  .bold
+                  .xl2
+                  .makeCentered()
+                  .px32(),
+              // Text(
+              //   "an email has been sent" + " to your email id",
+              //   style: TextStyle(
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
+              SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -77,7 +85,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       },
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
                     Material(
                       color: Colors.purple,
@@ -85,7 +93,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           BorderRadius.circular(changeButton ? 50 : 10),
                       child: InkWell(
                         onTap: () async {
-                          setState(() {});
+                          
+                          // setState(() {});
                           // try {
                           User? user = await FirebaseAuth.instance
                                   .sendPasswordResetEmail(email: _email)
@@ -95,11 +104,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           // } catch (e) {
                           // print(e);
                           // }5
-                          setState(() {});
+                          // setState(() {});
                         },
                         child: AnimatedContainer(
                           duration: Duration(seconds: 1),
-                          width: changeButton ? 50 : 120,
+                          width: changeButton ? 50 : 150,
                           height: 50,
                           alignment: Alignment.center,
                           child: changeButton
@@ -108,7 +117,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   color: Colors.white,
                                 )
                               : Text(
-                                  "Login",
+                                  "Request Link",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

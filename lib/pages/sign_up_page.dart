@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart ';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:skiome/pages/Home_page.dart';
@@ -19,10 +20,12 @@ class _SignUpPageState extends State<SignUpPage> {
   String value = "";
   final _auth = FirebaseAuth.instance;
   TextEditingController name = TextEditingController();
+  // TextEditingController contact = TextEditingController();
   late String email;
   late String password;
   final _formKey = GlobalKey<FormState>();
-  var dropdownValue;
+  var dropdownValue1;
+  var dropdownValue2;
   var items = ['C.B.S.E.', 'I.C.S.E.'];
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   TextFormField(
                     controller: name,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.local_library_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter school name",
                       labelText: "School name",
@@ -81,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter manager name",
                       labelText: "Manager Name",
@@ -100,7 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Principal name",
                       labelText: "Principal Name",
@@ -109,14 +112,104 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Principal cannot be empty";
+                        return "Principal name cannot be empty";
                       }
                       return null;
                     },
                   ),
-                  // SizedBox(
-                  //   height: 15,
-                  // ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: EdgeInsets.fromLTRB(30, 4, 30, 4),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            focusColor: Colors.white,
+                            value: dropdownValue1,
+                            //elevation: 5,
+                            style: TextStyle(color: Colors.grey),
+                            iconEnabledColor: Colors.grey[500],
+                            items: <String>[
+                              'CBSE',
+                              'ICSE',
+                              'State board',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Board",
+                              style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue1 = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: EdgeInsets.fromLTRB(40, 4, 40, 4),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            focusColor: Colors.white,
+                            value: dropdownValue2,
+                            //elevation: 5,
+                            style: TextStyle(color: Colors.grey[500]),
+                            iconEnabledColor: Colors.grey[500],
+                            items: <String>[
+                              'Hindi',
+                              'English',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Medium",
+                              style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue2 = value!;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   //   children: [
@@ -171,13 +264,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.calendar_month),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Foundation Year",
                       labelText: "Foundation Year",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
+                    maxLength: 4,
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -194,7 +288,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Highest class available",
                       labelText: "School level",
@@ -223,7 +316,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter School email id",
                       labelText: "School email id",
@@ -245,8 +338,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    // controller: contact,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.contact_phone_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter School contact",
                       labelText: "School contact",
@@ -254,6 +348,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     keyboardType: TextInputType.phone,
+                    maxLength: 10,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "School contact cannot be empty";
@@ -281,7 +376,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Name of Member 1",
                       labelText: "Name",
@@ -300,7 +395,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.contact_phone_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Member 1 contact no.",
                       labelText: "Contact no.",
@@ -308,6 +403,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     keyboardType: TextInputType.phone,
+                    maxLength: 10,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 1 contact no. cannot be empty";
@@ -320,7 +416,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Member 1 email id ",
                       labelText: "Email id ",
@@ -346,7 +442,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.account_circle_outlined),
+                      prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Name of Member 2",
                       labelText: "Name",
@@ -365,7 +461,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.phone),
+                      prefixIcon: Icon(Icons.contact_phone_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Member 2 contact no.",
                       labelText: "Contact no.",
@@ -373,6 +469,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     keyboardType: TextInputType.phone,
+                    maxLength: 10,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 2 contact no. cannot be empty";
@@ -385,7 +482,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail),
+                      prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Member 2 email id ",
                       labelText: "Email id ",
@@ -460,7 +557,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         //     firestore.collection('Schools');
                         // await users.doc("pp").set({'name': "google"});
                         if (_formKey.currentState!.validate()) {
-                          setState(() {});
+                          // setState(() {});
                           try {
                             User? newUser =
                                 (await _auth.createUserWithEmailAndPassword(
@@ -480,7 +577,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           } catch (e) {
                             print(e);
                           }
-                          setState(() {});
                         }
                         ;
                       },

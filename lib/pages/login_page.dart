@@ -83,20 +83,21 @@ import '../widgets/google_sign_in_button.dart';
 //     );
 //   }
 // }
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key, this.user});
+  final User? user;
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
-final _auth = FirebaseAuth.instance;
-final User? user = FirebaseAuth.instance.currentUser;
-final uid = user?.uid;
-
 class _LoginPageState extends State<LoginPage> {
-  String email = "";
-  String password = "";
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final User? user = FirebaseAuth.instance.currentUser;
+  // final uid = user?.uid;
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
   // TextEditingController _passwordTextController = TextEditingController();
   // TextEditingController _emailTextController = TextEditingController();
   String name = "";
@@ -124,19 +125,25 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: Column(
             children: [
+              SizedBox(
+                height: 10,
+              ),
               Image.asset(
                 "assets/images/trademark.png",
-                fit: BoxFit.cover,
-              ),
+                // fit: BoxFit.cover,
+              ).px8(),
               SizedBox(
                 height: 20,
               ),
               Text(
-                "Welcome $name",
+                "Welcome to SkiomeWorld !",
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.purple[200]),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -144,24 +151,21 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFormField(
+                      controller: email,
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.account_circle_outlined),
+                        prefixIcon: Icon(Icons.contact_mail_rounded),
                         contentPadding: EdgeInsets.fromLTRB(25, 20, 25, 20),
-                        hintText: "Enter username",
-                        labelText: "Username",
+                        hintText: "Enter email",
+                        labelText: "Email ID  ",
                         border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20))),
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Username cannot be empty";
+                          return "Email Id cannot be empty";
                         }
                         return null;
-                      },
-                      onChanged: (value) {
-                        name = value;
-                        email = value;
                       },
                     ),
                     SizedBox(
@@ -169,6 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     TextFormField(
+                      controller: password,
                       obscureText: true,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.vpn_key_outlined),
@@ -187,9 +192,6 @@ class _LoginPageState extends State<LoginPage> {
                           return "Password length should be at least 6 ";
                         }
                         return null;
-                      },
-                      onChanged: (value) {
-                        password = value;
                       },
                     ),
                     Row(
@@ -217,30 +219,31 @@ class _LoginPageState extends State<LoginPage> {
                           BorderRadius.circular(changeButton ? 50 : 10),
                       child: InkWell(
                         onTap: () async {
-                          setState(() {});
+                          // setState(() {});
                           // try {
-                          FirebaseAuth.instance
+                          await FirebaseAuth.instance
                               .signInWithEmailAndPassword(
-                                  email: email, password: password)
+                                  email: email.text, password: password.text)
                               .then((value) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => HomePage()));
-                          }).onError((error, stackTrace) {
-                            print("error${error.toString()}");
                           });
+                          // .onError((error, stackTrace) {
+                          //   print("error${error.toString()}");
+                          // });
                           // if (user != null) {
                           //   (context) => moveToHome(context);
                           // }
                           // } catch (e) {
                           // print(e);
                           // }5
-                          setState(() {});
+                          // setState(() {});
                         },
                         child: AnimatedContainer(
                           duration: Duration(seconds: 1),
-                          width: changeButton ? 50 : 120,
+                          width: changeButton ? 50 : 150,
                           height: 50,
                           alignment: Alignment.center,
                           child: changeButton
@@ -260,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 110,
+                      height: 50,
                     ),
                     // ElevatedButton(
                     //   onPressed: () {
@@ -290,9 +293,17 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Dont have an account?",
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ]),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Dont have an account?"),
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -302,13 +313,14 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: " Create one!"
                           .text
-                          .lg
-                          .underline
+                          .xl2
                           .bold
-                          .color(context.theme.accentColor)
-                          .make())
+                          .center
+                          .color(Colors.purple[300])
+                          // .color(context.theme.accentColor)
+                          .makeCentered()),
                 ],
-              ),
+              )
             ],
           ),
         ),

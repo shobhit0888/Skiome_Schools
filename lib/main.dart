@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:skiome/pages/Home_page.dart';
@@ -7,6 +8,7 @@ import 'package:skiome/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'core/store.dart';
 import 'pages/login_page.dart';
+import 'package:page_transition/page_transition.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -41,11 +43,21 @@ class Skiome extends StatelessWidget {
       theme: MyTheme.lightTheme(context),
       darkTheme: MyTheme.darkTheme(context),
       debugShowCheckedModeBanner: false,
-      initialRoute: MyRoutes.homeRoute,
+      home: AnimatedSplashScreen(
+        splash: 'assets/images/trademark.png',
+        splashIconSize: 400,
+        duration: 2000,
+        splashTransition: SplashTransition.fadeTransition,
+        pageTransitionType: PageTransitionType.leftToRightWithFade,
+        backgroundColor: Colors.black,
+        nextScreen: LoginPage(),
+      ),
+
+      // initialRoute: MyRoutes.loginRoute,
       routes: {
-        "/": (context) => LoginPage(),
-        MyRoutes.homeRoute: (context) => HomePage(),
-        MyRoutes.loginRoute: (context) => LoginPage(),
+        // "/": (context) => LoginPage(),
+        // MyRoutes.homeRoute: (context) => HomePage(),
+        // MyRoutes.loginRoute: (context) => LoginPage(),
         MyRoutes.cartRoute: (context) => CartPage(),
       },
     );
