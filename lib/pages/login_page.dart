@@ -152,6 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       controller: email,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.contact_mail_rounded),
                         contentPadding: EdgeInsets.fromLTRB(25, 20, 25, 20),

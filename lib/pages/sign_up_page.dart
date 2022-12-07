@@ -19,10 +19,21 @@ class _SignUpPageState extends State<SignUpPage> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String value = "";
   final _auth = FirebaseAuth.instance;
-  TextEditingController name = TextEditingController();
-  // TextEditingController contact = TextEditingController();
-  late String email;
-  late String password;
+  TextEditingController school_name = TextEditingController();
+  TextEditingController manager_name = TextEditingController();
+  TextEditingController principal_name = TextEditingController();
+  TextEditingController foundation_year = TextEditingController();
+  TextEditingController school_level = TextEditingController();
+  TextEditingController school_email = TextEditingController();
+  TextEditingController school_contact = TextEditingController();
+  TextEditingController m1_name = TextEditingController();
+  TextEditingController m1_contact = TextEditingController();
+  TextEditingController m1_email = TextEditingController();
+  TextEditingController m2_name = TextEditingController();
+  TextEditingController m2_contact = TextEditingController();
+  TextEditingController m2_email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   var dropdownValue1;
   var dropdownValue2;
@@ -62,7 +73,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
-                    controller: name,
+                    controller: school_name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.local_library_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -83,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: manager_name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -102,6 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: principal_name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -200,6 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
                             ),
+
                             onChanged: (String? value) {
                               setState(() {
                                 dropdownValue2 = value!;
@@ -210,59 +224,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ],
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   children: [
-                  //     DropdownButton<String>(
-                  //       // Step 3.
-                  //       value: null,
-                  //       hint: Text("Board"),
-                  //       // Step 4.
-                  //       items: <String>['C.B.S.E.', 'I.C.S.E.', 'U.P.']
-                  //           .map<DropdownMenuItem<String>>((String value) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: dropdownValue,
-                  //           child: Text(
-                  //             value,
-                  //             style: TextStyle(fontSize: 20),
-                  //           ),
-                  //         );
-                  //       }).toList(),
-                  //       // Step 5.
-                  //       onChanged: (String? newValue) {
-                  //         setState(() {
-                  //       dropdownValue = newValue!;
-                  //     });
-                  //   },
-                  // ),
-                  //     DropdownButton<String>(
-                  //       // Step 3.
-                  //       value: null,
-                  //       hint: Text("Medium"),
-                  //       // Step 4.
-                  //       items: <String>['Hindi', 'English']
-                  //           .map<DropdownMenuItem<String>>((String value) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: value,
-                  //           child: Text(
-                  //             value,
-                  //             style: TextStyle(fontSize: 20),
-                  //           ),
-                  //         );
-                  //       }).toList(),
-                  //       // Step 5.
-                  //       onChanged: (String? newValue) {
-                  //         setState(() {
-                  //           dropdownValue = newValue!;
-                  //         });
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
+
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
+                    controller: foundation_year,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.calendar_month),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -287,6 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: school_level,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                       hintText: "Enter Highest class available",
@@ -315,6 +283,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: school_email,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -323,21 +292,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
-                    onChanged: (value) {
-                      email = value;
-                    },
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "School email id cannot be empty";
+                      } else if (value.isNotEmpty) {
+                        RegExp regex = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                        if (!regex.hasMatch(value)) {
+                          return "Enter valid email";
+                        }
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
+                    controller: school_contact,
                     // controller: contact,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_phone_rounded),
@@ -352,8 +327,10 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "School contact cannot be empty";
-                      }
-                      return null;
+                      } else if (value.toString().length < 10)
+                        return "Enter valid Contact Number";
+                      else
+                        return null;
                     },
                   ),
                   SizedBox(
@@ -375,6 +352,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   TextFormField(
+                    controller: m1_name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -394,6 +372,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: m1_contact,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_phone_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -407,14 +386,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 1 contact no. cannot be empty";
-                      }
-                      return null;
+                      } else if (value.toString().length < 10)
+                        return "Enter valid Contact Number";
+                      else
+                        return null;
                     },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
+                    controller: m1_email,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -427,8 +409,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 1 email id cannot be empty";
+                      } else if (value.isNotEmpty) {
+                        RegExp regex = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                        if (!regex.hasMatch(value)) {
+                          return "Enter valid email";
+                        }
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                   ),
                   SizedBox(
@@ -441,6 +431,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ],
                   ),
                   TextFormField(
+                    controller: m2_name,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.account_circle_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -460,6 +451,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    controller: m2_contact,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_phone_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -473,14 +465,17 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 2 contact no. cannot be empty";
-                      }
-                      return null;
+                      } else if (value.toString().length < 10)
+                        return "Enter valid Contact Number";
+                      else
+                        return null;
                     },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
+                    controller: m2_email,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.contact_mail_rounded),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -493,14 +488,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Member 2 email id cannot be empty";
+                      } else if (value.isNotEmpty) {
+                        RegExp regex = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+                        if (!regex.hasMatch(value)) {
+                          return "Enter valid email";
+                        }
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextFormField(
+                    controller: password,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.vpn_key_outlined),
                       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -509,9 +513,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
-                    onChanged: (value) {
-                      password = value;
-                    },
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -542,47 +543,79 @@ class _SignUpPageState extends State<SignUpPage> {
                       }
                       if (value.length < 6) {
                         return "Password length should be at least 6 ";
+                      } else if (value.isNotEmpty) {
+                        RegExp regex = RegExp(
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~_]).{6,}$');
+
+                        if (!regex.hasMatch(value)) {
+                          return "Enter valid password";
+                        }
+                      } else {
+                        return null;
                       }
-                      return null;
                     },
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        // CollectionReference users =
-                        //     firestore.collection('Schools');
-                        // await users.doc("pp").set({'name': "google"});
-                        if (_formKey.currentState!.validate()) {
-                          // setState(() {});
-                          try {
-                            User? newUser =
-                                (await _auth.createUserWithEmailAndPassword(
-                                        email: email, password: password))
-                                    .user;
+                  Container(
+                    height: 75,
+                    width: 150,
+                    // decoration: BoxDecoration(
+                    //     shape: BoxShape.rectangle,
+                    //     borderRadius: BorderRadius.circular(40)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // CollectionReference users =
+                          //     firestore.collection('Schools');
+                          // await users.doc("pp").set({'name': "google"});
+                          if (_formKey.currentState!.validate()) {
+                            // setState(() {});
+                            try {
+                              User? newUser =
+                                  (await _auth.createUserWithEmailAndPassword(
+                                          email: school_email.text,
+                                          password: password.text))
+                                      .user;
 
-                            if (newUser != null) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                              if (newUser != null) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              }
+                              await firestore
+                                  .collection("Schools")
+                                  .doc(_auth.currentUser!.uid)
+                                  .set({
+                                'school_name': school_name.text,
+                                'manager_name': manager_name.text,
+                                'principal_name': principal_name.text,
+                                'board': dropdownValue1,
+                                'medium': dropdownValue2,
+                                'foundation_year': foundation_year.text,
+                                'school_level': school_level.text,
+                                'school_email': school_email.text,
+                                'school_contact': school_contact.text,
+                                'm1_name': m1_name.text,
+                                'm1_contact': m1_contact.text,
+                                'm1_email': m1_email.text,
+                                'm2_name': m2_name.text,
+                                'm2_contact': m2_contact.text,
+                                'm2_email': m2_email.text,
+                              });
+                            } catch (e) {
+                              print(e);
                             }
-                            await firestore
-                                .collection("Schools")
-                                .doc(_auth.currentUser!.uid)
-                                .set({'email': email, 'name': name.text});
-                          } catch (e) {
-                            print(e);
                           }
-                        }
-                        ;
-                      },
-                      child: "Submit".text.makeCentered(),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(156, 39, 176, 1),
+                          ;
+                        },
+                        child: "Submit".text.bold.xl.makeCentered(),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(156, 39, 176, 1),
+                        ),
                       ),
                     ),
                   )

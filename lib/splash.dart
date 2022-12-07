@@ -31,6 +31,12 @@ class _SplashState extends State<Splash> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              child: Text('Skiome',
+                  style: TextStyle(fontSize: 24, 
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)),
+            ),
+            Container(
               margin: EdgeInsets.all(8.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -39,9 +45,8 @@ class _SplashState extends State<Splash> {
                     fit: BoxFit.cover,
                   )),
             ),
-            Container(
-              child: Text('Skiome',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 100,
             ),
           ],
         ),
