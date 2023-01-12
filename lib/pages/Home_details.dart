@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -7,7 +6,8 @@ import '../widgets/home_widgets/add_to_cart.dart';
 
 class HomeDetailPage extends StatelessWidget {
   final Item skim;
-  const HomeDetailPage({super.key, required this.skim});
+  final int index;
+  const HomeDetailPage({super.key, required this.skim, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +44,7 @@ class HomeDetailPage extends StatelessWidget {
                   width: context.screenWidth,
                   child: Column(
                     children: [
+                      // SkimModel.items[index].name.text.make(),
                       skim.name.text.bold.xl4
                           .color(context.theme.buttonColor)
                           .make(),
@@ -52,12 +53,13 @@ class HomeDetailPage extends StatelessWidget {
                           .xl
                           .center
                           .make(),
-                      "Ipsum sadipscing ea lorem consetetur amet stet amet sit. Sit sea accusam duo no aliquyam gubergren et, elitr sed kasd erat dolor nonumy, et kasd erat sed voluptua ipsum et sea et sit, elitr invidunt no et consetetur consetetur dolor diam ea, consetetur dolor at et ipsum. Sanctus ipsum clita."
+                       "Ip sadipscing ea lorem consetetur amet stet amet sit. Sit sea accusam duo no aliquyam gubergren et, elitr sed kasd erat dolor nonumy, et kasd erat sed voluptua ipsum et sea et sit, elitr invidunt no et consetetur consetetur dolor diam ea, consetetur dolor at et ipsum. Sanctus ipsum clita."
                           .text
                           .textStyle(context.captionStyle)
                           .make()
                           .px24()
                           .py12(),
+                          
                     ],
                   ).py32(),
                 ),

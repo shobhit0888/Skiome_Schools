@@ -98,8 +98,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
-  // TextEditingController _passwordTextController = TextEditingController();
-  // TextEditingController _emailTextController = TextEditingController();
   String name = "";
   bool changeButton = false;
   final _formKey = GlobalKey<FormState>();
@@ -120,209 +118,220 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Material(
       color: context.canvasColor,
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                "assets/images/trademark.png",
-                // fit: BoxFit.cover,
-              ).px8(),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Welcome to SkiomeWorld !",
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.purple[200]),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextFormField(
-                      controller: email,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.contact_mail_rounded),
-                        contentPadding: EdgeInsets.fromLTRB(25, 20, 25, 20),
-                        hintText: "Enter email",
-                        labelText: "Email ID  ",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Email Id cannot be empty";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    TextFormField(
-                      controller: password,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.vpn_key_outlined),
-                        contentPadding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                        hintText: "Enter password",
-                        labelText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Password cannot be empty";
-                        }
-                        if (value.length < 6) {
-                          return "Password length should be at least 6 ";
-                        }
-                        return null;
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPassword())),
-                            child: "Forgot password?"
-                                .text
-                                .underline
-                                .lg
-                                .color(context.theme.accentColor)
-                                .make())
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Material(
-                      color: Colors.purple,
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 10),
-                      child: InkWell(
-                        onTap: () async {
-                          // setState(() {});
-                          // try {
-                          await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: email.text, password: password.text)
-                              .then((value) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          });
-                          // .onError((error, stackTrace) {
-                          //   print("error${error.toString()}");
-                          // });
-                          // if (user != null) {
-                          //   (context) => moveToHome(context);
-                          // }
-                          // } catch (e) {
-                          // print(e);
-                          // }5
-                          // setState(() {});
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  "assets/images/trademark.png",
+                  // fit: BoxFit.cover,
+                ).px8(),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Welcome to SkiomeWorld !",
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.purple[200]),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextFormField(
+                        controller: email,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.contact_mail_rounded),
+                          contentPadding: EdgeInsets.fromLTRB(25, 20, 25, 20),
+                          hintText: "Enter email",
+                          labelText: "Email ID  ",
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Email Id cannot be empty";
+                          }
+                          return null;
                         },
-                        child: AnimatedContainer(
-                          duration: Duration(seconds: 1),
-                          width: changeButton ? 50 : 150,
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: changeButton
-                              ? Icon(
-                                  Icons.done,
-                                  color: Colors.white,
-                                )
-                              : Text(
-                                  "Login",
-                                  style: TextStyle(
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      TextFormField(
+                        controller: password,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.vpn_key_outlined),
+                          contentPadding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+                          hintText: "Enter password",
+                          labelText: "Password",
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Password cannot be empty";
+                          }
+                          if (value.length < 6) {
+                            return "Password length should be at least 6 ";
+                          }
+                          return null;
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ForgotPassword())),
+                              child: "Forgot password?"
+                                  .text
+                                  .underline
+                                  .lg
+                                  .color(context.theme.accentColor)
+                                  .make())
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Material(
+                        color: Colors.purple,
+                        borderRadius:
+                            BorderRadius.circular(changeButton ? 50 : 10),
+                        child: InkWell(
+                          onTap: () async {
+                            // setState(() {});
+                            // try {
+                            if ((!email.text.isEmpty) &&
+                                (!password.text.isEmpty)) {
+                              changeButton = true;
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: email.text,
+                                      password: password.text)
+                                  .then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              });
+                            }
+                            ;
+                            // .onError((error, stackTrace) {
+                            //   print("error${error.toString()}");
+                            // });
+                            // if (user != null) {
+                            //   (context) => moveToHome(context);
+                            // }
+                            // } catch (e) {
+                            // print(e);
+                            // }5
+                            // setState(() {});
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            width: changeButton ? 50 : 150,
+                            height: 50,
+                            alignment: Alignment.center,
+                            child: changeButton
+                                ? Icon(
+                                    Icons.done,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                  )
+                                : Text(
+                                    "Login",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    // ElevatedButton(
-                    //   onPressed: () {
-                    //     Navigator.pushNamed(context, MyRoutes.homeRoute);
-                    //   },
-                    //   style: TextButton.styleFrom(minimumSize: Size(100, 40)),
-                    //   child: Text("Login"),
-                    // )
-                    // FutureBuilder(
-                    //   future:
-                    //       Authentication.initializeFirebase(context: context),
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.hasError) {
-                    //       return Text('Error initializing Firebase');
-                    //     } else if (snapshot.connectionState ==
-                    //         ConnectionState.done) {
-                    //       return GoogleSignInButton();
-                    //     }
-                    //     return CircularProgressIndicator(
-                    //       valueColor: AlwaysStoppedAnimation<Color>(
-                    //         Colors.orange,
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                  ],
+                      SizedBox(
+                        height: 50,
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     Navigator.pushNamed(context, MyRoutes.homeRoute);
+                      //   },
+                      //   style: TextButton.styleFrom(minimumSize: Size(100, 40)),
+                      //   child: Text("Login"),
+                      // )
+                      // FutureBuilder(
+                      //   future:
+                      //       Authentication.initializeFirebase(context: context),
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.hasError) {
+                      //       return Text('Error initializing Firebase');
+                      //     } else if (snapshot.connectionState ==
+                      //         ConnectionState.done) {
+                      //       return GoogleSignInButton();
+                      //     }
+                      //     return CircularProgressIndicator(
+                      //       valueColor: AlwaysStoppedAnimation<Color>(
+                      //         Colors.orange,
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
-              Row(
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Dont have an account?",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ]),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Dont have an account?",
-                      style: TextStyle(fontSize: 17),
-                    ),
-                  ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
-                      },
-                      child: " Create one!"
-                          .text
-                          .xl2
-                          .bold
-                          .center
-                          .color(Colors.purple[300])
-                          // .color(context.theme.accentColor)
-                          .makeCentered()),
-                ],
-              )
-            ],
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
+                        },
+                        child: " Create one!"
+                            .text
+                            .xl2
+                            .bold
+                            .center
+                            .color(Colors.purple[300])
+                            // .color(context.theme.accentColor)
+                            .makeCentered()),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -2,7 +2,138 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:skiome/models/registration_details.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:skiome/pages/Home_page.dart';
+import 'package:velocity_x/velocity_x.dart';
 
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image(
+                              image: AssetImage(
+                                  "assets/images/profile_image.png")),
+                        ),
+                      ),
+                      Positioned(
+                          bottom: 10,
+                          right: 0,
+                          child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white),
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.black,
+                              size: 30,
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ),
+              buildTextField("SchoolName", "CCA"),
+              buildTextField("ManagerName", "CCA"),
+              buildTextField("PricipalName", "CCA"),
+              buildTextField("FoundationYear", "CCA"),
+              buildTextField("SchoolLevel", "CCA"),
+              buildTextField("SchoolEmail", "CCA"),
+              buildTextField("SchoolContact", "CCA"),
+              buildTextField("m1Name", "CCA"),
+              buildTextField("m1contact", "CCA"),
+              buildTextField("m1email", "CCA"),
+              buildTextField("m2name", "CCA"),
+              buildTextField("m2contact", "CCA"),
+              buildTextField("m2email", "CCA"),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 0, 0, 50),
+                    child: ElevatedButton(
+                        onPressed: (() {}), child: "Cancel".text.bold.make()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(130, 0, 0, 50),
+                    child: ElevatedButton(
+                       
+                        onPressed: (() {}), child: "  Save  ".text.bold.make()),
+                  )
+                ],
+              )
+              // AppBar(
+              //   title: "Edit Profile".text.bold.color(Colors.white).xl2.make(),
+              //   backgroundColor: Colors.purple[400],
+              //   leading: IconButton(
+              //     onPressed: () {
+              //       Navigator.push(context,
+              //           MaterialPageRoute(builder: ((context) => HomePage())));
+              //     },
+              //     icon: Icon(Icons.arrow_back_ios),
+              //   ),
+              // )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField(String labelText, String placeholder) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              labelText: labelText,
+              hintText: placeholder,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              hintStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 // class SettingsUI extends StatelessWidget {
 //   const SettingsUI({Key? key}) : super(key: key);
 

@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:skiome/pages/Home_page.dart';
-import 'package:skiome/pages/sign_up_page.dart';
+// import 'package:flutter/src/widgets/container.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+// import 'package:skiome/pages/Home_page.dart';
+// import 'package:skiome/pages/sign_up_page.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import '../utils/authentication.dart';
-import '../utils/routes.dart';
-import '../widgets/google_sign_in_button.dart';
+// import '../utils/authentication.dart';
+// import '../utils/routes.dart';
+// import '../widgets/google_sign_in_button.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -17,18 +17,68 @@ class ForgotPassword extends StatefulWidget {
   State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-final _auth = FirebaseAuth.instance;
+// final _auth = FirebaseAuth.instance;
 final User? user = FirebaseAuth.instance.currentUser;
 final uid = user?.uid;
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  String _email = "";
-  String password = "";
-  // TextEditingController _passwordTextController = TextEditingController();
-  // TextEditingController _emailTextController = TextEditingController();
-  String name = "";
-  bool changeButton = false;
+  final TextEditingController _emailTextController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+  void dispose() {
+    _emailTextController.dispose();
+    super.dispose();
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: _emailTextController.text.trim());
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              backgroundColor: Colors.transparent,
+              content: Material(
+                borderRadius: BorderRadius.circular(15),
+                elevation: 8,
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  padding: const EdgeInsets.all(10),
+                  height: 200,
+                  child: "reset link".text.bold.makeCentered(),
+                ),
+              ));
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+              insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              backgroundColor: Colors.transparent,
+              content: Material(
+                borderRadius: BorderRadius.circular(15),
+                elevation: 8,
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  padding: const EdgeInsets.all(10),
+                  height: 200,
+                  child: "Invalid User".text.bold.makeCentered(),
+                ),
+              ));
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +114,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFormField(
+                      controller: _emailTextController,
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.account_circle_outlined),
                         contentPadding: EdgeInsets.fromLTRB(25, 20, 25, 20),
@@ -80,53 +131,55 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         }
                         return null;
                       },
-                      onChanged: (value) {
-                        _email = value;
-                      },
                     ),
                     SizedBox(
                       height: 30,
                     ),
-                    Material(
+                    MaterialButton(
+                      onPressed: passwordReset,
+                      child: Text("Request Link"),
                       color: Colors.purple,
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 10),
-                      child: InkWell(
-                        onTap: () async {
-                          
-                          // setState(() {});
-                          // try {
-                          User? user = await FirebaseAuth.instance
-                                  .sendPasswordResetEmail(email: _email)
-                                  .then((value) => Navigator.of(context).pop())
-                              as User?;
-                          // }
-                          // } catch (e) {
-                          // print(e);
-                          // }5
-                          // setState(() {});
-                        },
-                        child: AnimatedContainer(
-                          duration: Duration(seconds: 1),
-                          width: changeButton ? 50 : 150,
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: changeButton
-                              ? Icon(
-                                  Icons.done,
-                                  color: Colors.white,
-                                )
-                              : Text(
-                                  "Request Link",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                        ),
-                      ),
                     ),
+                    // Material(
+                    //   color: Colors.purple,
+                    //   borderRadius:
+                    //       BorderRadius.circular(changeButton ? 50 : 10),
+                    //   child: InkWell(
+                    //     onTap: () async {
+
+                    //       // setState(() {});
+                    //       // try {
+                    //       User? user = await FirebaseAuth.instance
+                    //               .sendPasswordResetEmail(email: _email)
+                    //               .then((value) => Navigator.of(context).pop())
+                    //           as User?;
+                    //       // }
+                    //       // } catch (e) {
+                    //       // print(e);
+                    //       // }5
+                    //       // setState(() {});
+                    //     },
+                    //     child: AnimatedContainer(
+                    //       duration: Duration(seconds: 1),
+                    //       width: changeButton ? 50 : 150,
+                    //       height: 50,
+                    //       alignment: Alignment.center,
+                    //       child: changeButton
+                    //           ? Icon(
+                    //               Icons.done,
+                    //               color: Colors.white,
+                    //             )
+                    //           : Text(
+                    //               "Request Link",
+                    //               style: TextStyle(
+                    //                 color: Colors.white,
+                    //                 fontWeight: FontWeight.bold,
+                    //                 fontSize: 20,
+                    //               ),
+                    //             ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 110,
                     ),
