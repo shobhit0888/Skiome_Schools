@@ -83,6 +83,8 @@ flutter:
   assets:
     - assets/images/
     - assets/files/
+    - assets/files/3D_Objects_names/Physics3D.json
+      
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,0 +1,20 @@
+{
+    "Physics":[
+        {
+            "Optics":[
+                {
+                    "id":"OP001",
+                    "name":"Lens",
+        "image":"https://firebasestorage.googleapis.com/v0/b/skiome.appspot.com/o/3D_Objects%2FPhysics%2FOptics%2Fconvex_lens.png?alt=media&token=76211cf4-b05f-4110-a225-245558288334"
+                }
+            ],
+            "Kinematics":[
+                {
+                    "id":"KM001",
+                    "name":"Pulley System",
+                    "image":"https://firebasestorage.googleapis.com/v0/b/skiome.appspot.com/o/3D_Objects%2FPhysics%2FKinematics%2FPulley_system.png?alt=media&token=c60ef71c-b723-4ca7-9f94-d6b4136f8f80"
+                }
+            ]
+        }
+    ]
+}

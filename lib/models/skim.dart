@@ -8,7 +8,7 @@ class SkimModel {
   Item getById(int id) =>
       items.firstWhere((element) => element.id == id, orElse: null);
   Item getByPosition(int pos) => items[pos];
-
+  
   void add(Item skim) {}
 }
 

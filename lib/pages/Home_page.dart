@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:skiome/models/cart.dart';
-import 'package:skiome/pages/Features/3DObjects.dart';
+import 'package:skiome/pages/Features/3D_Objects/3DObjects.dart';
 import 'package:skiome/pages/Features/Clubs.dart';
 import 'package:skiome/pages/Features/Experiments.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -62,6 +63,7 @@ class _HomePageState extends State<HomePage> {
     SkimModel.items = List.from(productsData)
         .map<Item>((item) => Item.fromMap(item))
         .toList();
+    // print(decodeData['products']);
     setState(() {
       load = true;
     });
@@ -135,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                       enableInfiniteScroll: true,
                       autoPlayAnimationDuration: Duration(milliseconds: 800),
                       viewportFraction: 0.8)),
+                      
               // if (SkimModel.items != null && SkimModel.items.isNotEmpty)
               //   Container(child: SkimList().py16().expand())
               // else
@@ -142,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               // ListView.builder(
               //     shrinkWrap: true,
               //     physics: const NeverScrollableScrollPhysics(),
-              //     itemCount: SkimModel.items.length,
+                  // itemCount: SkimModel.items.length,
               //     itemBuilder: ((context, index) {
               // final skim = SkimModel.items[index];
               //       return InkWell(
@@ -153,7 +156,7 @@ class _HomePageState extends State<HomePage> {
               //                         skim: skim,
               //                         index: index,
               //                       ))),
-              //           child: SkimItem(skim: skim));
+                        // child: SkimItem(skim: skim));
               //     })),
               Card(
                 elevation: 60,
@@ -281,7 +284,7 @@ class _HomePageState extends State<HomePage> {
               // InkWell(
               //   onTap: () => Navigator.push(context,
               //       MaterialPageRoute(builder: (context) => Objects_3D())),
-              //   child: SkimItem(skim: SkimModel.items[0]),
+                // child: SkimItem(skim: SkimModel.items[0]),
               // ),
               // InkWell(
               //   onTap: () => Navigator.push(context,
@@ -293,6 +296,7 @@ class _HomePageState extends State<HomePage> {
               //       context, MaterialPageRoute(builder: (context) => Clubs())),
               //   child: SkimItem(skim: SkimModel.items[2]),
               // ),
+              
             ],
           ),
           replacement: const Center(
